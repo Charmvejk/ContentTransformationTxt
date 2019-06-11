@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             outStream.close();
         } catch (Exception e) {
             Log.i("test result", "file write error");
-            Toast.makeText(MainActivity.this, "错误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "路径不存在！！！", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
