@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -36,19 +37,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_save:
                 //todo 编辑的内容转换成txt文件
                 finalContent = edtName.getText().toString();
-                stringTxt(finalContent);
+                writeToSdCard(finalContent);
                 break;
         }
-
     }
 
-    public static void stringTxt(String str) {
+    public void writeToSdCard(String s) {
         try {
-            FileWriter fw = new FileWriter("/sdcard/aaa" + "/cmd.txt");//SD卡中的路径
-            fw.flush();
-            fw.write(str);
-            fw.close();
+            File dst = new File("/sdcard/system/test_sensor/" + "aaaaaaa" + ".txt");
+            File parent = dst.getParentFile();
+            if (!parent.exists()) {
+                parent.mkdirs();
+            }
+            FileOutputStream outStream = new FileOutputStream(dst, true);
+            OutputStreamWriter writer = new OutputStreamWriter(outStream, "gb2312");
+            writer.write(s);
+            writer.write("\n");
+            writer.flush();
+            writer.close();// 记得关闭
+            outStream.close();
         } catch (Exception e) {
+            Log.i("test result", "file write error");
+            Toast.makeText(MainActivity.this, "错误", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
